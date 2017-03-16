@@ -1,0 +1,20 @@
+<div class="jumbotron">
+    {{#if errorMessage}}
+        <div class="alert alert-danger">{{errorMessage}}</div>
+    {{/if}}
+
+    <form action="/login/" method="post">
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input id="user" type="text" class="form-control" name="user" placeholder="AD-Username">
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+            <input id="password" type="password" class="form-control" name="password" placeholder="Password">
+        </div>
+        <br/>
+        <div class="input-group">
+            <button type="submit" class="login btn btn-default">Login</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,53 @@
+{
+  "users": [
+    {
+      "name": "admin",
+      "password": "123",
+      "group": "admins"
+    },{
+      "name": "user",
+      "password": "123",
+      "group": "users"
+    }
+
+  ],
+  "api": "api.sonos.shopware.in:5005",
+  "paths": {
+    "home": "/",
+    "logout": "/logout/",
+    "presets": "/presets/",
+    "settings": "/settings/",
+    "setpresets": "/settings/setpresets/",
+    "getpresets": "/settings/getpresets/",
+    "getdata": "/getdata/"
+  },
+  "acl": {
+    "admins": {
+      "home": true,
+      "logout": true,
+      "presets": true,
+      "settings": true,
+      "setpresets": true,
+      "getpresets": true,
+      "getdata": true
+    },
+    "defaults": {
+      "home": true,
+      "logout": true,
+      "presets": true,
+      "settings": false,
+      "setpresets": false,
+      "getpresets": true,
+      "getdata": true
+    },
+    "not-logged-in": {
+      "home": false,
+      "logout": false,
+      "presets": false,
+      "settings": false,
+      "setpresets": false,
+      "getpresets": false,
+      "getdata": false
+    }
+  }
+}

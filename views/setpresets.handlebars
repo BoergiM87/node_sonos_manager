@@ -1,0 +1,79 @@
+<div class="jumbotron">
+    {{#if saveMessage}}
+        <div class="alert alert-success">{{saveMessage}}</div>
+    {{/if}}
+
+    {{#if errorMessage}}
+        <div class="alert alert-danger">{{errorMessage}}</div>
+    {{/if}}
+    <div id="form-preset" class="form-group">
+        <label for="selectPreset">Select a Preset to edit:</label>
+        <select id="select-Preset" class="form-control" name="selectPreset">
+            <option>Please Select</option>
+            {{#each presets}}
+            <option value="{{this.file}}">{{this.name}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <form action="/settings/setpresets/" method="post">
+        <div class="form-group">
+            <label for="preset[name]">Preset Name:</label>
+            <input id="input-preset-name"type="text" class="form-control" name="preset[name]" placeholder="Enter Preset Name" required>
+        </div>
+        <table id="table-player" class="table table-striped table-bordered">
+            <tr>
+                <th>Player</th>
+                <th>Volume</th>
+                <th>Remove</th>
+            </tr>
+        </table>
+        <button type="button" id="btn-add-room" class="btn btn-default pull-right">
+            <span class="glyphicon glyphicon-plus"></span>
+        </button>
+        <br>
+        <div class="form-group">
+            <label for="preset[data][playMode][shuffle]">Shuffle:</label>
+            <select class="form-control" name="preset[data][playMode][shuffle]">
+                <option id="opt-shu-on" value=true>On</option>
+                <option id="opt-shu-off" value=false>Off</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="preset[data][playMode][repeat]">Repeat:</label>
+            <select class="form-control" name="preset[data][playMode][repeat]">
+                <option id="opt-rep-all" value="all">Repeat all</option>
+                <option id="opt-rep-false" value=false>Off</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="preset[data][playMode][crossfade]">Crossfade:</label>
+            <select class="form-control" name="preset[data][playMode][crossfade]">
+                <option id="opt-cro-on" value=true>On</option>
+                <option id="opt-cro-off" value=false>Off</option>
+            </select>
+        </div>
+        <input type="hidden" class="form-control" name="preset[data][pauseOthers]" value="false">
+        <div class="form-group">
+            <label for="preset[data][favorite]">Playlist:</label>
+            <select class="form-control" name="preset[data][favorite]">
+                <option id="opt-fav-none" value="">Select s Playlist or enter a Spotify URI</option>
+                {{#each favorites}}
+                    <option id="opt-fav-{{this.optId}}"value="{{this.name}}">{{this.name}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="uri">Spotify URI:</label>
+            <input id="input-uri" type="text" class="form-control" name="preset[data][uri]" placeholder="Enter Spotify URI">
+        </div>
+        <button type="submit" class="btn btn-primary pull-right">Save</button>
+    </form>
+    <form action="/settings/setpresets/" method="post">
+        <input type="hidden" class="form-control" name="del" value="false">
+        <button type="submit" class="btn btn-primary pull-right"></button>
+    </form>
+</div>
+<script src="/js/setpresets.js"></script>
+
+
+

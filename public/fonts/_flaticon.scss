@@ -1,0 +1,53 @@
+    /*
+    Flaticon icon font: Flaticon
+    Creation date: 13/07/2016 11:06
+    */
+
+    @font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+    .fi:before{
+        display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+    }
+
+    .flaticon-co2:before { content: "\f100"; }
+.flaticon-co2-sign:before { content: "\f101"; }
+.flaticon-measure:before { content: "\f102"; }
+.flaticon-measure-1:before { content: "\f103"; }
+.flaticon-medical:before { content: "\f104"; }
+.flaticon-weather:before { content: "\f105"; }
+.flaticon-weather-1:before { content: "\f106"; }
+    
+    $font-Flaticon-co2: "\f100";
+    $font-Flaticon-co2-sign: "\f101";
+    $font-Flaticon-measure: "\f102";
+    $font-Flaticon-measure-1: "\f103";
+    $font-Flaticon-medical: "\f104";
+    $font-Flaticon-weather: "\f105";
+    $font-Flaticon-weather-1: "\f106";
