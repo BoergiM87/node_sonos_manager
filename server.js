@@ -315,6 +315,7 @@ app.post('/settings/setpresets/', function (req, res) {
                  console.log(err);
              }
          });
+        successMessage = 'Preset: ' + presetName + ' saved!';
      }
 
      if (req.body.del){
