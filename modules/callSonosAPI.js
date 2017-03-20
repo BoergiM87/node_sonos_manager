@@ -11,7 +11,6 @@ jsonfile.readFile('settings.json', function(err, obj) {
 
 function setPreset(preset) {
     var url = 'http://' + SonosAPI + '/preset/' + JSON.stringify(preset);
-    console.log(url);
     return http.get(url).then(function(response) {
         var data = response.data;
         return new Promise(function(fulfill, reject) {
@@ -20,6 +19,26 @@ function setPreset(preset) {
                 reject(new Error('API not available!'));
             }
             console.log(data);
+            fulfill(data);
+        });
+        return data;
+    });
+};
+
+function setTextToSpeak(language, player, text, volume) {
+    var url = "";
+    if (player === "all"){
+        url = 'http://' + SonosAPI + '/sayall/' + text + '/' + language + '/' + volume;
+    } else {
+        url = 'http://' + SonosAPI + '/' + player + '/say/' + text + '/' + language + '/' + volume;
+    }
+    return http.get(url).then(function(response) {
+        var data = response.data;
+        return new Promise(function(fulfill, reject) {
+
+            if (!data) {
+                reject(new Error('API not available!'));
+            }
             fulfill(data);
         });
         return data;
@@ -45,7 +64,8 @@ function stopAllPlayer() {
 function getplayers(){
     var cachefile = './cache/players.json',
         players,
-        allPlayers = [];
+        allPlayers = [],
+        dataPlayers = [];
 
     jsonfile.readFile(cachefile, function(err, obj) {
         players = obj,
@@ -61,7 +81,7 @@ function getplayers(){
             data.forEach(function(items) {
                 items.members.forEach(function(item){
                     var p = 0;
-                    for(var i = 0;i < players.length; i++){
+                    for (var i = 0;i < players.length; i++){
                         if (players[i] === item.roomName){
                             p++;
                         }
@@ -71,15 +91,30 @@ function getplayers(){
                     }
                 });
             });
+            allPlayers.forEach(function (player) {
+                var online = false;
+                data.forEach(function(items) {
+                    items.members.forEach(function(item){
+                        if (player === item.roomName){
+                            online = true;
+                        }
+                    });
+                });
+                if (online){
+                    dataPlayers.push({ name: player, online: true });
+                } else {
+                    dataPlayers.push({ name: player, online: false });
+                }
+            });
 
             jsonfile.writeFile(cachefile, allPlayers, function (err) {
                 if (err) {
                     console.log(err);
                 }
             });
-            fulfill(allPlayers);
+            fulfill(dataPlayers);
         });
-        return allPlayers;
+        return dataPlayers;
 
     });
 };
@@ -116,6 +151,7 @@ function getfavorites(){
 
 module.exports = {
     setPreset,
+    setTextToSpeak,
     stopAllPlayer,
     getplayers,
     getfavorites

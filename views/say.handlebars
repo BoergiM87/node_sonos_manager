@@ -1,0 +1,44 @@
+<div id="say">
+    <div class="jumbotron">
+        {{#if successMessage}}
+            <div class="alert alert-success">{{successMessage}}</div>
+        {{/if}}
+
+        {{#if errorMessage}}
+            <div class="alert alert-danger">{{errorMessage}}</div>
+        {{/if}}
+        <form action="/say/" method="post">
+            {{#each allPlayers}}
+                <div class="radio">
+                    <label>
+                        <input class="radiobutton" type="radio" name="player" value="{{this.name}}" {{#ifCond this.online "===" false}}disabled{{/ifCond}}>
+                        {{this.name}}{{#ifCond this.online "===" false}} - Offline{{/ifCond}}
+                    </label>
+                </div>
+            {{/each}}
+            <div class="radio"><label><input class="radiobutton" type="radio" name="player" value="all">all</label></div>
+
+            <div class="form-group">
+                <label for="comment">Say:</label>
+                <textarea id="message" class="form-control" rows="5" name="text" id="comment"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="volumeSlider">Volume: <div id="volumeValue">10</div></label>
+                <input id="input-volume" type="hidden" name="volume" value="10">
+                <div id="volumeSlider">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="language">Language:</label>
+                <select class="form-control" name="language" id="language">
+                    <option value="de">DE</option>
+                    <option value="en">EN</option>
+                </select>
+            </div>
+            <button type="submit" class="say btn btn-primary btn-lg" aria-label="say">Say</button>
+        </form>
+    </div>
+</div>
+<script src="/js/say.js"></script>

@@ -1,3 +1,10 @@
+{{#if successMessage}}
+    <div class="alert alert-success">{{successMessage}}</div>
+{{/if}}
+
+{{#if errorMessage}}
+    <div class="alert alert-danger">{{errorMessage}}</div>
+{{/if}}
 {{#each presets}}
     <div class="jumbotron">
         <h4>{{this.name}}</h4>

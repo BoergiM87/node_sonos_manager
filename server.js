@@ -226,8 +226,8 @@ app.post('/presets/', function (req, res) {
         var loadPreset = req.body.loadPreset,
             name = loadPreset.name,
             file = loadPreset.file,
-            successMessage = null,
-            errorMessage = null,
+            successMessage = '',
+            errorMessage = '',
             presetData = JSON.parse(fs.readFileSync("./presets/" + file));
 
         var setPreset = callSonosAPI.setPreset(presetData);
@@ -292,8 +292,8 @@ app.get('/settings/setpresets/', function (req, res) {
 });
 
 app.post('/settings/setpresets/', function (req, res) {
-    var successMessage = null,
-        errorMessage= null;
+    var successMessage = '',
+        errorMessage= '';
     if (req.body.preset)  {
          var form = req.body.preset,
              presetName= form.name,
@@ -381,8 +381,68 @@ app.post('/getdata/', function (req, res) {
     }
 });
 
-app.post('/controlSonos/', function (req, res) {
+app.get('/say/', function (req, res) {
+    var players = callSonosAPI.getplayers();
+    players.then(function(allPlayers) {
+        res.render('say', {
+            title: 'Sonos Say',
+            subtitle: 'Text to Speak for Sonos',
+            name: 'say',
+            allPlayers: allPlayers
+        });
+    });
+});
 
+app.post('/say/', function (req, res) {
+    var successMessage = null,
+        errorMessage = null,
+        post = req.body,
+        player = post.player,
+        text = post.text,
+        language = post.language,
+        volume = post.volume;
+
+    if (!player){
+        errorMessage = errorMessage + "No player has been selected! "
+    }
+    if (!text){
+        errorMessage = errorMessage + "No text was entered!"
+    }
+
+    if (!errorMessage) {
+        var setTextToSpeak = callSonosAPI.setTextToSpeak(language, player, text, volume);
+        setTextToSpeak.then(function (response) {
+            if (response.status === "success"){
+                successMessage = "Message has been sent!";
+            } else {
+                errorMessage = "Something went wrong!";
+            }
+            var players = callSonosAPI.getplayers();
+            players.then(function(allPlayers) {
+                console.log(successMessage);
+                res.render('say', {
+                    successMessage: successMessage,
+                    errorMessage: errorMessage,
+                    title: 'Sonos Say',
+                    subtitle: 'Text to Speak for Sonos',
+                    name: 'say',
+                    allPlayers: allPlayers
+                });
+            });
+        });
+    } else {
+        var players = callSonosAPI.getplayers();
+        players.then(function(allPlayers) {
+            res.render('say', {
+                successMessage: successMessage,
+                errorMessage: errorMessage,
+                title: 'Sonos Say',
+                subtitle: 'Text to Speak for Sonos',
+                name: 'say',
+                allPlayers: allPlayers
+            });
+        });
+    }
 });
 
 

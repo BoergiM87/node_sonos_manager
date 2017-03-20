@@ -17,6 +17,9 @@
                 {{#if currentUser.permissions.presets}}
                     <li class="{{{isMenuItemActive 'presets' page child}}}"><a href="/presets/">Presets</a></li>
                 {{/if}}
+                {{#if currentUser.permissions.say}}
+                    <li class="{{{isMenuItemActive 'say' page child}}}"><a href="/say/">Say</a></li>
+                {{/if}}
                 {{#if currentUser.permissions.settings}}
                     <li class="dropdown {{{isMenuItemActive 'settings' page child}}}">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="/settings/">Settings

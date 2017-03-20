@@ -14,7 +14,7 @@
                 var playerOptions = '';
 
                 response.players.forEach(function(player) {
-                    playerOptions = playerOptions + '<option id="P-' + player.replace(/\s/g,"-") + '-' + id + '" value="' + player + '">' + player + '</option>';
+                    playerOptions = playerOptions + '<option id="P-' + player.name.replace(/\s/g,"-") + '-' + id + '" value="' + player.name + '">' + player.name + '</option>';
                 });
 
 
