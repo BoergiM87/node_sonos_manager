@@ -222,13 +222,37 @@ app.get('/presets/', function (req, res) {
 });
 
 app.post('/presets/', function (req, res) {
-    res.render('presets', {
-        errorMessage: null,
-        title: 'Sonos Manager',
-        subtitle: 'Load your Presets',
-        page: "presets",
-        child: false
-    });
+    if (req.body.loadPreset){
+        var loadPreset = req.body.loadPreset,
+            name = loadPreset.name,
+            file = loadPreset.file,
+            successMessage = null,
+            errorMessage = null,
+            presetData = JSON.parse(fs.readFileSync("./presets/" + file));
+
+        var setPreset = callSonosAPI.setPreset(presetData);
+
+        setPreset.then(function (msg) {
+            if(msg.status === "success") {
+                successMessage = "Preset: " + name + " has been loaded.";
+            } else {
+                errorMessage = "Error: " + msg;
+            }
+
+            var presets = getData.presets();
+            presets.then(function(presets) {
+                res.render('presets', {
+                    successMessage: successMessage,
+                    errorMessage: errorMessage,
+                    title: 'Sonos Manager',
+                    subtitle: 'Load your Presets',
+                    page: "presets",
+                    child: false,
+                    presets: presets
+                });
+            });
+        });
+    }
 });
 
 app.get('/settings/setpresets/', function (req, res) {
@@ -268,8 +292,8 @@ app.get('/settings/setpresets/', function (req, res) {
 });
 
 app.post('/settings/setpresets/', function (req, res) {
-    var success = '',
-        error= '';
+    var successMessage = null,
+        errorMessage= null;
     if (req.body.preset)  {
          var form = req.body.preset,
              presetName= form.name,
@@ -277,7 +301,7 @@ app.post('/settings/setpresets/', function (req, res) {
 
          if (data.favorite === '' && data.uri){
              delete data.uri;
-             error = "You have enter a Favorite and a Spotify URI. Only the Favorite are saved."
+             errorMessage = "You have enter a Favorite and a Spotify URI. Only the Favorite are saved."
          } else if (data.favorite === '') {
              delete data.favorite;
          }
@@ -294,24 +318,44 @@ app.post('/settings/setpresets/', function (req, res) {
      }
 
      if (req.body.del){
-        var delFile = './presets/' + req.body.del;
+        var delFile = './presets/' + req.body.del,
+            name =  req.body.name;
         if (fs.existsSync(delFile)){
             console.log("del:", delFile);
             fs.unlink(delFile);
+            successMessage = 'Preset: ' + name + ' has been deleted.'
         }
      }
 
     var presets = getData.presets();
-    presets.then(function(response) {
-        res.render('setpresets', {
-            successMessage: success,
-            errorMessage: error,
-            title: 'Sonos Manager',
-            subtitle: 'Setup your Presets',
-            page: "setpresets",
-            child: "settings",
-            presets: response
+    presets.then(function(presets) {
+        var favs = callSonosAPI.getfavorites();
+
+        favs.then(function (favs) {
+            var favdata = [];
+
+
+            for(i = 0;i<favs.length; i++){
+                var optId = favs[i].replace(/\s/g,"-");
+                optId = optId.replace("'", "");
+                optId = optId.replace("/", "");
+
+                favdata[i] = { optId: optId, name: favs[i] }
+            }
+
+            res.render('setpresets', {
+                successMessage: successMessage,
+                errorMessage: errorMessage,
+                title: 'Sonos Manager',
+                subtitle: 'Setup your Presets',
+                page: "setpresets",
+                child: "settings",
+                presets: presets,
+                favorites: favdata
+            });
         });
+
+
     }).catch(function(err) {
         console.error(err);
     });
@@ -337,6 +381,9 @@ app.post('/getdata/', function (req, res) {
     }
 });
 
+app.post('/controlSonos/', function (req, res) {
+
+});
 
 
 server.listen(8080);

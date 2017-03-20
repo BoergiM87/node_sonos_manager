@@ -50,6 +50,10 @@
                 </table>
             </div>
         </div>
-        <button class="btn btn-primary" data-PresetFile="{{this.file}}">Load Preset</button>
+        <form action="/presets/" method="post">
+            <input type="hidden" class="form-control" name="loadPreset[name]" value="{{this.name}}">
+            <input type="hidden" class="form-control" name="loadPreset[file]" value="{{this.name}}.json">
+            <button type="submit" class="btn btn-primary">Load Preset</button>
+        </form>
     </div>
 {{/each}}

@@ -19,6 +19,7 @@
     "settings": "/settings/",
     "setpresets": "/settings/setpresets/",
     "getpresets": "/settings/getpresets/",
+    "controlSonos": "/controlSonos/",
     "getdata": "/getdata/"
   },
   "acl": {
@@ -29,6 +30,7 @@
       "settings": true,
       "setpresets": true,
       "getpresets": true,
+      "controlSonos": true,
       "getdata": true
     },
     "defaults": {
@@ -38,6 +40,7 @@
       "settings": false,
       "setpresets": false,
       "getpresets": true,
+      "controlSonos": true,
       "getdata": true
     },
     "not-logged-in": {
@@ -47,6 +50,7 @@
       "settings": false,
       "setpresets": false,
       "getpresets": false,
+      "controlSonos": false,
       "getdata": false
     }
   }

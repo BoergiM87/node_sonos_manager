@@ -199,8 +199,8 @@
                         $('#input-uri').val('');
                     }
                     $('#input-del').val(preset);
+                    $('#input-del-name').val(name);
                     $('#form-del').show();
-
                 }
             });
         }

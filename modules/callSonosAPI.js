@@ -9,8 +9,9 @@ jsonfile.readFile('settings.json', function(err, obj) {
     SonosAPI = settings.api;
 });
 
-function setGroupPreset(group) {
-    var url = 'http://' + SonosAPI + '/preset/' + group;
+function setPreset(preset) {
+    var url = 'http://' + SonosAPI + '/preset/' + JSON.stringify(preset);
+    console.log(url);
     return http.get(url).then(function(response) {
         var data = response.data;
         return new Promise(function(fulfill, reject) {
@@ -18,6 +19,7 @@ function setGroupPreset(group) {
             if (!data) {
                 reject(new Error('API not available!'));
             }
+            console.log(data);
             fulfill(data);
         });
         return data;
@@ -33,6 +35,7 @@ function stopAllPlayer() {
             if (!data) {
                 reject(new Error('API not available!'));
             }
+
             fulfill(data);
         });
         return data;
@@ -112,7 +115,7 @@ function getfavorites(){
 };
 
 module.exports = {
-    setGroupPreset,
+    setPreset,
     stopAllPlayer,
     getplayers,
     getfavorites
