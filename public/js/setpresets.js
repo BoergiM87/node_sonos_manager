@@ -144,65 +144,68 @@
     $('#select-Preset').on('change', function(e) {
         e.preventDefault();
 
-        var data = $(this).val(),
-            name = data.slice(0, -5);
-
-        $.ajax({
-            url: '/getdata/',
-            dataType: 'json',
-            data: {
-                "presetFile": data
-            },
-            method: 'post',
-            success: function(response) {
-                var data = response.data,
-                    players = data.players;
-                for(i = 0;i<=rows;i++){
-                    $('.row-player').remove();
-                };
-                id = 0;
-                rows = -1;
-                $('#input-preset-name').val(name);
-                for(i = 0;i<players.length;i++){
-                    var player = players[i];
-                    addPlayer();
-                    addSelected(i, player)
-                };
-                if (data.playMode.shuffle === "true") {
-                    $('#opt-shu-on').attr('selected','selected');
-                } else {
-                    $('#opt-shu-off').attr('selected','selected');
-                }
-                if (data.playMode.repeat === "all") {
-                    $('#opt-rep-all').attr('selected','selected');
-                } else {
-                    $('#opt-rep-off').attr('selected','selected');
-                }
-                if (data.playMode.crossfade === "true") {
-                    $('#opt-cro-on').attr('selected','selected');
-                } else {
-                    $('#opt-cro-off').attr('selected','selected');
-                }
-                if(data.favorite){
-                    var optId = data.favorite.replace(/\s/g,"-");
-                    optId = optId.replace("'", "");
+        var preset = $(this).val(),
+            name = preset.slice(0, -5);
+        if(preset !== "false"){
+            $.ajax({
+                url: '/getdata/',
+                dataType: 'json',
+                data: {
+                    "presetFile": preset
+                },
+                method: 'post',
+                success: function(response) {
+                    var data = response.data,
+                        players = data.players;
+                    for(i = 0;i<=rows;i++){
+                        $('.row-player').remove();
+                    };
+                    id = 0;
+                    rows = -1;
+                    $('#input-preset-name').val(name);
+                    for(i = 0;i<players.length;i++){
+                        var player = players[i];
+                        addPlayer();
+                        addSelected(i, player)
+                    };
+                    if (data.playMode.shuffle === "true") {
+                        $('#opt-shu-on').attr('selected','selected');
+                    } else {
+                        $('#opt-shu-off').attr('selected','selected');
+                    }
+                    if (data.playMode.repeat === "all") {
+                        $('#opt-rep-all').attr('selected','selected');
+                    } else {
+                        $('#opt-rep-off').attr('selected','selected');
+                    }
+                    if (data.playMode.crossfade === "true") {
+                        $('#opt-cro-on').attr('selected','selected');
+                    } else {
+                        $('#opt-cro-off').attr('selected','selected');
+                    }
+                    if(data.favorite){
+                        var optId = data.favorite.replace(/\s/g,"-");
+                        optId = optId.replace("'", "");
                         optId = optId.replace("/", "");
 
-                    $('#input-uri').val('');
-                    $('#opt-fav-'+ optId).attr('selected','selected');
-                } else {
-                    $('#opt-fav-none').attr('selected','selected');
-                }
-                if(data.uri){
-                    $('#input-uri').val(data.uri);
-                } else {
-                    $('#input-uri').val('');
-                }
+                        $('#input-uri').val('');
+                        $('#opt-fav-'+ optId).attr('selected','selected');
+                    } else {
+                        $('#opt-fav-none').attr('selected','selected');
+                    }
+                    if(data.uri){
+                        $('#input-uri').val(data.uri);
+                    } else {
+                        $('#input-uri').val('');
+                    }
+                    $('#input-del').val(preset);
+                    $('#form-del').show();
 
-            }
-        })
+                }
+            });
+        }
 
-    })
+    });
     function addSelected(i, player){
         setTimeout(function () {
             $('#P-' + player.roomName.replace(/\s/g,"-") + '-' + i).attr('selected','selected');

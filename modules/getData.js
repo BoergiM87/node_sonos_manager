@@ -16,14 +16,12 @@ function presets() {
             var presets = {},
                 p = 0;
 
-            for (var i in items) {
+            for (var i = 0;i < items.length; i++) {
                 var filedata = {};
-
                 if(path.extname(items[i]) !== filter) {
                     delete items[i];
                 } else {
                     filedata = JSON.parse(fs.readFileSync("./presets/" + items[i]));
-                    console.log(filedata);
                     presets[p] = {
                         "name": items[i].slice(0, -5),
                         "file": items[i],

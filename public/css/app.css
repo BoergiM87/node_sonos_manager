@@ -10,3 +10,10 @@
 .input-group-volume{
     width: 130px;
 }
+
+#form-del{
+    display: none;
+}
+.btn-del{
+    margin-right: 10px;
+}

@@ -1,5 +1,5 @@
 <div class="jumbotron">
-    {{#if saveMessage}}
+    {{#if successMessage}}
         <div class="alert alert-success">{{saveMessage}}</div>
     {{/if}}
 
@@ -9,7 +9,7 @@
     <div id="form-preset" class="form-group">
         <label for="selectPreset">Select a Preset to edit:</label>
         <select id="select-Preset" class="form-control" name="selectPreset">
-            <option>Please Select</option>
+            <option value="false">Please Select</option>
             {{#each presets}}
             <option value="{{this.file}}">{{this.name}}</option>
             {{/each}}
@@ -68,9 +68,9 @@
         </div>
         <button type="submit" class="btn btn-primary pull-right">Save</button>
     </form>
-    <form action="/settings/setpresets/" method="post">
-        <input type="hidden" class="form-control" name="del" value="false">
-        <button type="submit" class="btn btn-primary pull-right"></button>
+    <form id="form-del" action="/settings/setpresets/" method="post">
+        <input id="input-del"type="hidden" class="form-control" name="del" value="false">
+        <button type="submit" class="btn btn-default btn-del pull-right">Delete</button>
     </form>
 </div>
 <script src="/js/setpresets.js"></script>

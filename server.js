@@ -268,32 +268,44 @@ app.get('/settings/setpresets/', function (req, res) {
 });
 
 app.post('/settings/setpresets/', function (req, res) {
-    var form = req.body.preset,
-        presetName= form.name,
-        data = form.data,
+    var success = '',
         error= '';
+    if (req.body.preset)  {
+         var form = req.body.preset,
+             presetName= form.name,
+             data = form.data;
 
-    if (data.favorite === '' && data.uri){
-        delete data.uri;
-        error = "You have enter a Favorite and a Spotify URI. Only the Favorite are saved."
-    } else if (data.favorite === '') {
-        delete data.favorite;
-    }
+         if (data.favorite === '' && data.uri){
+             delete data.uri;
+             error = "You have enter a Favorite and a Spotify URI. Only the Favorite are saved."
+         } else if (data.favorite === '') {
+             delete data.favorite;
+         }
 
-    if(data.uri === '') {
-        delete data.uri;
-    }
+         if(data.uri === '') {
+             delete data.uri;
+         }
 
-    jsonfile.writeFile('./presets/'+ presetName + '.json', data, function (err) {
-        if (err) {
-            console.log(err);
+         jsonfile.writeFile('./presets/'+ presetName + '.json', data, function (err) {
+             if (err) {
+                 console.log(err);
+             }
+         });
+     }
+
+     if (req.body.del){
+        var delFile = './presets/' + req.body.del;
+        if (fs.existsSync(delFile)){
+            console.log("del:", delFile);
+            fs.unlink(delFile);
         }
-    });
+     }
 
     var presets = getData.presets();
     presets.then(function(response) {
         res.render('setpresets', {
-            errorMessage: null,
+            successMessage: success,
+            errorMessage: error,
             title: 'Sonos Manager',
             subtitle: 'Setup your Presets',
             page: "setpresets",
@@ -303,6 +315,7 @@ app.post('/settings/setpresets/', function (req, res) {
     }).catch(function(err) {
         console.error(err);
     });
+
 });
 
 app.post('/getdata/', function (req, res) {
