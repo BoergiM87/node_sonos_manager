@@ -17,7 +17,7 @@ Start API
 
 `npm start`
 
-* Install Sonos Manager:
+Install Sonos Manager:
 
 `git clone https://github.com/BoergiM87/node_sonos_manager.git`
 

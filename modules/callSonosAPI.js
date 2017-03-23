@@ -27,6 +27,10 @@ function setPreset(preset) {
 
 function setTextToSpeak(language, player, text, volume) {
     var url = "";
+
+    text = text.replace(/ /g, '%20');
+    text = text.replace(/\r?\n|\r/g, '%20');
+
     if (player === "all"){
         url = 'http://' + SonosAPI + '/sayall/' + text + '/' + language + '/' + volume;
     } else {

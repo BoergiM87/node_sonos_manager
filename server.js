@@ -86,6 +86,15 @@ app.use(function (req, res, next) {
         settings = obj;
     });
 
+    if(settings.localhostLoggedIn){
+        if (req.connection.remoteAddress === '::1'){
+            req.session.currentUser = {
+                name: 'admin',
+                group: 'admins'
+            };
+        }
+    }
+
     acl = settings.acl;
     users = settings.users;
     paths = settings.paths;
@@ -147,13 +156,20 @@ app.get('/', function(req, res) {
 });
 
 app.get('/login/', function(req, res) {
-    res.render('login', {
-        errorMessage: null,
-        title: 'Sonos Manager',
-        subtitle: 'Login to Control!',
-        page: "login",
-        child: false
-    });
+    if(settings.localhostLoggedIn){
+        if (req.connection.remoteAddress === '::1'){
+            res.redirect('/');
+        }
+    } else {
+        res.render('login', {
+            errorMessage: null,
+            title: 'Sonos Manager',
+            subtitle: 'Login to Control!',
+            page: "login",
+            child: false
+        });
+    }
+
 });
 
 app.post('/login/', function(req, res) {

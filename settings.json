@@ -9,8 +9,8 @@
       "password": "123",
       "group": "users"
     }
-
   ],
+  "localhostLoggedIn": true,
   "api": "localhost:5005",
   "paths": {
     "home": "/",
