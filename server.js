@@ -95,6 +95,13 @@ app.use(function (req, res, next) {
         }
     }
 
+    if(!settings.login){
+        req.session.currentUser = {
+            name: 'admin',
+            group: 'admins'
+        };
+    }
+
     acl = settings.acl;
     users = settings.users;
     paths = settings.paths;

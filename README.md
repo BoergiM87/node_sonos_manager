@@ -28,3 +28,46 @@ Install Sonos Manager:
 Start Sonos Manager:
 
 `node server.js`
+
+
+Settings
+-
+**Login**
+
+Administator:
+Username = admin
+Password = 123
+
+User:
+Username = User
+Password = 123
+
+You can edit the default user credentials in the Settings.json and you can add new users in it.
+
+```
+"users": [
+    {
+      "name": "admin",
+      "password": "123",
+      "group": "admins"
+    },{
+      "name": "user",
+      "password": "123",
+      "group": "users"
+    },{
+      "name": "example",
+      "password": "123",
+      "group": "users"
+    }
+  ],
+```
+
+To disable the login for localhost:
+```
+"localhostLoggedIn": true,
+```
+
+To disable the login for all:
+```
+"login": `false,
+```

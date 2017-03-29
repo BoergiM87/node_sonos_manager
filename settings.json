@@ -10,7 +10,8 @@
       "group": "users"
     }
   ],
-  "localhostLoggedIn": true,
+  "localhostLoggedIn": false,
+  "login": true,
   "api": "localhost:5005",
   "paths": {
     "home": "/",
