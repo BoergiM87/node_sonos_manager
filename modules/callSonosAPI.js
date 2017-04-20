@@ -18,7 +18,6 @@ function setPreset(preset) {
             if (!data) {
                 reject(new Error('API not available!'));
             }
-            console.log(data);
             fulfill(data);
         });
         return data;
@@ -72,7 +71,7 @@ function getplayers(){
         dataPlayers = [];
 
     jsonfile.readFile(cachefile, function(err, obj) {
-        players = obj,
+        players = obj;
         allPlayers = players;
     });
 
@@ -95,6 +94,7 @@ function getplayers(){
                     }
                 });
             });
+            allPlayers.sort();
             allPlayers.forEach(function (player) {
                 var online = false;
                 data.forEach(function(items) {
@@ -110,7 +110,6 @@ function getplayers(){
                     dataPlayers.push({ name: player, online: false });
                 }
             });
-
             jsonfile.writeFile(cachefile, allPlayers, function (err) {
                 if (err) {
                     console.log(err);

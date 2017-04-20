@@ -322,23 +322,23 @@ app.post('/settings/setpresets/', function (req, res) {
              presetName= form.name,
              data = form.data;
 
-         if (data.favorite === '' && data.uri){
-             delete data.uri;
-             errorMessage = "You have enter a Favorite and a Spotify URI. Only the Favorite are saved."
-         } else if (data.favorite === '') {
-             delete data.favorite;
-         }
+           if (data.favorite !== '' && data.uri){
+               delete data.uri;
+               errorMessage = "You have enter a Favorite and a Spotify URI. Only the Favorite are saved."
+           } else if (data.favorite === '') {
+               delete data.favorite;
+           }
 
-         if(data.uri === '') {
-             delete data.uri;
-         }
+           if(data.uri === '') {
+               delete data.uri;
+           }
 
-         jsonfile.writeFile('./presets/'+ presetName + '.json', data, function (err) {
-             if (err) {
-                 console.log(err);
-             }
-         });
-        successMessage = 'Preset: ' + presetName + ' saved!';
+           jsonfile.writeFile('./presets/'+ presetName + '.json', data, function (err) {
+               if (err) {
+                   console.log(err);
+               }
+           });
+          successMessage = 'Preset: ' + presetName + ' saved!';
      }
 
      if (req.body.del){

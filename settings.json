@@ -11,7 +11,7 @@
     }
   ],
   "localhostLoggedIn": false,
-  "login": true,
+  "login": false,
   "api": "localhost:5005",
   "paths": {
     "home": "/",
